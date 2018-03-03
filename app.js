@@ -1,5 +1,28 @@
 // data controller
-var budgetController = (function() {})();
+var dataController = (function() {
+    var Expense = function(id, description, value) {
+        this.id = id;
+        this.description = description;
+        this.value = value;
+    };
+
+    var Income = function(id, description, value) {
+        this.id = id;
+        this.description = description;
+        this.value = value;
+    };
+
+    var data = {
+        allItems: {
+            exp: [],
+            inc: []
+        },
+        totals: {
+            exp: 0,
+            inc: 0
+        }
+    };
+})();
 
 // user interface controller
 var uiController = (function() {
@@ -25,7 +48,7 @@ var uiController = (function() {
 })();
 
 // global controller
-var controller = (function(budgetCtrl, uiCtrl) {
+var controller = (function(dataCtrl, uiCtrl) {
     var setupEventListeners = function() {
         var dom = uiController.getDomStr();
         document.querySelector(dom.inputBtn).addEventListener("click", ctrlAddItem);
@@ -40,10 +63,13 @@ var controller = (function(budgetCtrl, uiCtrl) {
     var ctrlAddItem = function() {
         // get field input
         var input = uiCtrl.getInput();
-        console.log(input);
+
         // add item to the budget controller
+
         // add new item to ui
+
         // calculate budget
+
         // display budget
     };
 
@@ -52,6 +78,6 @@ var controller = (function(budgetCtrl, uiCtrl) {
             setupEventListeners();
         }
     };
-})(budgetController, uiController);
+})(dataController, uiController);
 
 controller.init();
