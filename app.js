@@ -14,8 +14,7 @@ var uiController = (function() {
         getInput: function() {
             return {
                 type: document.querySelector(domStr.inputType).value,
-                description: document.querySelector(domStr.inputDescription)
-                    .value,
+                description: document.querySelector(domStr.inputDescription).value,
                 value: document.querySelector(domStr.inputValue).value
             };
         },
@@ -27,7 +26,16 @@ var uiController = (function() {
 
 // global controller
 var controller = (function(budgetCtrl, uiCtrl) {
-    var dom = uiController.getDomStr();
+    var setupEventListeners = function() {
+        var dom = uiController.getDomStr();
+        document.querySelector(dom.inputBtn).addEventListener("click", ctrlAddItem);
+
+        document.addEventListener("keypress", function(e) {
+            if (e.keyCode === 13 || event.which === 13) {
+                ctrlAddItem();
+            }
+        });
+    };
 
     var ctrlAddItem = function() {
         // get field input
@@ -39,11 +47,11 @@ var controller = (function(budgetCtrl, uiCtrl) {
         // display budget
     };
 
-    document.querySelector(dom.inputBtn).addEventListener("click", ctrlAddItem);
-
-    document.addEventListener("keypress", function(e) {
-        if (e.keyCode === 13 || event.which === 13) {
-            ctrlAddItem();
+    return {
+        init: function() {
+            setupEventListeners();
         }
-    });
+    };
 })(budgetController, uiController);
+
+controller.init();
