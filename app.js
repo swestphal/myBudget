@@ -22,6 +22,30 @@ var dataController = (function() {
             inc: 0
         }
     };
+
+    return {
+        addItem: function(type, description, value) {
+            var newItem;
+
+            // create new id
+            if (data.allItems[type].length > 0) {
+                var id = data.allItems[type][data.allItems[type].length - 1].id + 1;
+            } else id = 0;
+
+            // create new item based on type
+            if (type === "exp") {
+                newItem = new Expense(id, description, value);
+            } else if (type === "inc") {
+                newItem = new Income(id, description, value);
+            }
+
+            // push to data
+            data.allItems[type].push(newItem);
+            console.log(newItem);
+            // return the new element
+            return newItem;
+        }
+    };
 })();
 
 // user interface controller
@@ -61,10 +85,13 @@ var controller = (function(dataCtrl, uiCtrl) {
     };
 
     var ctrlAddItem = function() {
+        var input, newItem;
+
         // get field input
-        var input = uiCtrl.getInput();
+        input = uiCtrl.getInput();
 
         // add item to the budget controller
+        newItem = dataController.addItem(input.type, input.description, input.value);
 
         // add new item to ui
 
