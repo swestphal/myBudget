@@ -71,6 +71,17 @@ var dataController = (function() {
             }
         },
 
+        deleteItem: function(type, id) {
+            var ids, index;
+            ids = data.allItems[type].map(function(current) {
+                return current.id;
+            });
+            index = ids.indexOf(id);
+            if (index !== -1) {
+                data.allItems[type].splice(index, 1);
+            }
+        },
+
         getBudget: function() {
             return {
                 budget: data.budget,
@@ -204,13 +215,18 @@ var controller = (function(dataCtrl, uiCtrl) {
     };
 
     var ctrlDeleteItem = function(event) {
-        var itemId,splitId,type,id;
+        var itemId, splitId, type, id;
         itemId = event.target.parentNode.parentNode.parentNode.parentNode.id;
-        if(itemId) {
-            splitId=itemId.split('-');
-            type=splitId[0];
-            id=splitId[1];
-            document.getElementById(itemId).
+        if (itemId) {
+            splitId = itemId.split("-");
+            type = splitId[0];
+            id = parseInt(splitId[1]);
+
+            // delete item from the data
+            dataController.deleteItem(type, id);
+            // delete item from ui
+
+            // update ui with budget
         }
     };
 
