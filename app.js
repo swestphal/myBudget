@@ -73,9 +73,14 @@ var dataController = (function() {
 
         deleteItem: function(type, id) {
             var ids, index;
+            if ((type = "income")) {
+                type = "inc";
+            } else type = "exp";
+
             ids = data.allItems[type].map(function(current) {
                 return current.id;
             });
+
             index = ids.indexOf(id);
             if (index !== -1) {
                 data.allItems[type].splice(index, 1);
@@ -155,6 +160,12 @@ var uiController = (function() {
             document.querySelector(element).insertAdjacentHTML("beforeend", newHtml);
         },
 
+        deleteListItem: function(selectorId) {
+            var el;
+            el = document.getElementById(selectorId);
+            el.parentNode.removeChild(el);
+        },
+
         clearFields: function() {
             var fields, fieldsArr;
             fields = document.querySelectorAll(domStr.inputDescription + "," + domStr.inputValue);
@@ -179,7 +190,7 @@ var controller = (function(dataCtrl, uiCtrl) {
                 ctrlAddItem();
             }
         });
-        document.querySelector(dom.container).addEventListener("click", ctrlDeleteItem);
+        document.querySelector(dom.listContainer).addEventListener("click", ctrlDeleteItem);
     };
 
     var updateBudget = function() {
@@ -225,8 +236,9 @@ var controller = (function(dataCtrl, uiCtrl) {
             // delete item from the data
             dataController.deleteItem(type, id);
             // delete item from ui
-
+            uiController.deleteListItem(itemId);
             // update ui with budget
+            updateBudget();
         }
     };
 
